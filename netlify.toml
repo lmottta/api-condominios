@@ -8,7 +8,7 @@
 
 [[redirects]]
   from = "/*"
-  to = "//index.html"
+  to = "/.netlify/functions/api/:splat"
   status = 200
 
 [[headers]]
@@ -21,4 +21,4 @@ Access-Control-Allow-Headers = "Content-Type"
 [functions]
   node_bundler = "esbuild"
   external_node_modules = []
-  included_files = ["netlify/functions/api.py"] 
+  included_files = ["api/api.py"] 
