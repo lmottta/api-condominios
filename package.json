@@ -4,9 +4,13 @@
   "description": "API de Condomínios",
   "main": "index.js",
   "scripts": {
-    "build": "pip install -r requirements.txt"
+    "build": "mkdir -p public && pip install -r requirements.txt",
+    "start": "netlify dev"
   },
   "dependencies": {
     "@netlify/functions": "^1.6.0"
+  },
+  "devDependencies": {
+    "netlify-cli": "^15.0.0"
   }
 } 

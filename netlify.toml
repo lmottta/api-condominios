@@ -1,6 +1,10 @@
 [build]
   base = "/"
-  command = "pip install -r requirements.txt"
+  command = """
+    mkdir -p public
+    pip install -r requirements.txt
+    echo '{"message": "API de Condomínios"}' > public/index.json
+  """
   publish = "public"
   functions = "functions"
 
