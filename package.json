@@ -1,0 +1,12 @@
+{
+  "name": "api-condominios",
+  "version": "1.0.0",
+  "description": "API de Condomínios",
+  "main": "index.js",
+  "scripts": {
+    "build": "pip install -r requirements.txt"
+  },
+  "dependencies": {
+    "@netlify/functions": "^1.6.0"
+  }
+} 
