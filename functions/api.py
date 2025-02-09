@@ -95,6 +95,7 @@ async def listar_condominios(
 
 @app.get("/condominios/busca/nome/{nome}", response_model=List[Condominio])
 async def buscar_por_nome(nome: str):
+    
     resultados = [c for c in condominios if nome.lower() in c.nome_do_condominio.lower()]
     return resultados
 
