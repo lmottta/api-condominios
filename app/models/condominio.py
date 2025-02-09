@@ -10,6 +10,7 @@ class Condominio:
         bairro: str,
         cidade: str,
         UF: str,
+        cep: str,
         uuid: Optional[str] = None
     ):
         self.uuid = uuid if uuid else str(uuid_pkg.uuid4())
@@ -18,4 +19,5 @@ class Condominio:
         self.num = num
         self.bairro = bairro
         self.cidade = cidade
-        self.UF = UF 
+        self.UF = UF
+        self.cep = cep 

@@ -8,6 +8,7 @@ class CondominioBase(BaseModel):
     bairro: str
     cidade: str
     UF: str
+    cep: str
 
 class CondominioCreate(CondominioBase):
     pass
