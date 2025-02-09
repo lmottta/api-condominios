@@ -9,19 +9,19 @@
 # Redirecionamento para a documentação Swagger
 [[redirects]]
   from = "/docs"
-  to = "/.netlify/functions/api/docs"
+  to = "/.netlify/functions/api"
   status = 200
 
 # Redirecionamento para a documentação ReDoc
 [[redirects]]
   from = "/redoc"
-  to = "/.netlify/functions/api/redoc"
+  to = "/.netlify/functions/api"
   status = 200
 
 # Redirecionamento para todos os endpoints da API v1
 [[redirects]]
   from = "/api/v1/*"
-  to = "/.netlify/functions/api/api/v1/:splat"
+  to = "/.netlify/functions/api"
   status = 200
 
 # Redirecionamento para a página inicial
