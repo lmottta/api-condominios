@@ -260,7 +260,8 @@ class CondominioService:
             num=condominio.num,
             bairro=condominio.bairro,
             cidade=condominio.cidade,
-            UF=condominio.UF
+            UF=condominio.UF,
+            cep=condominio.cep
         )
         self.condominios.append(db_condominio)
         return db_condominio
