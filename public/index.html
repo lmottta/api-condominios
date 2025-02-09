@@ -4,62 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API de Condomínios</title>
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui.css" />
     <style>
         body {
             font-family: Arial, sans-serif;
-            max-width: 800px;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .content {
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
-            line-height: 1.6;
         }
         h1 {
             color: #333;
-            text-align: center;
+            margin: 0;
         }
-        .endpoint {
-            background: #f5f5f5;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-        }
-        code {
-            background: #e0e0e0;
-            padding: 2px 5px;
-            border-radius: 3px;
+        .swagger-ui {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>API de Condomínios</h1>
-    <p>Bem-vindo à API de Condomínios. Esta API fornece endpoints para gerenciar informações sobre condomínios.</p>
-    
-    <h2>Endpoints Disponíveis:</h2>
-    
-    <div class="endpoint">
-        <h3>Listar Condomínios</h3>
-        <code>GET /.netlify/functions/api/condominios</code>
+    <div class="header">
+        <h1>API de Condomínios</h1>
+        <p>Documentação interativa da API</p>
+    </div>
+    <div class="content">
+        <div id="swagger-ui"></div>
     </div>
 
-    <div class="endpoint">
-        <h3>Buscar por Bairro</h3>
-        <code>GET /.netlify/functions/api/condominios/busca/bairro/{bairro}</code>
-    </div>
-
-    <div class="endpoint">
-        <h3>Buscar por Nome</h3>
-        <code>GET /.netlify/functions/api/condominios/busca/nome/{nome}</code>
-    </div>
-
-    <div class="endpoint">
-        <h3>Buscar por Cidade</h3>
-        <code>GET /.netlify/functions/api/condominios/busca/cidade/{cidade}</code>
-    </div>
-
-    <div class="endpoint">
-        <h3>Obter Estatísticas</h3>
-        <code>GET /.netlify/functions/api/condominios/estatisticas</code>
-    </div>
-
-    <p>Para mais informações, consulte a documentação completa da API.</p>
+    <script src="https://unpkg.com/swagger-ui-dist@4.5.0/swagger-ui-bundle.js"></script>
+    <script>
+        window.onload = () => {
+            window.ui = SwaggerUIBundle({
+                url: '/swagger.json',
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIBundle.SwaggerUIStandalonePreset
+                ],
+            });
+        };
+    </script>
 </body>
 </html> 

@@ -1,0 +1,330 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Condomínios",
+    "description": "API para gerenciamento de informações sobre condomínios em Feira de Santana",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-condominio.netlify.app/.netlify/functions/api",
+      "description": "Servidor de Produção"
+    }
+  ],
+  "paths": {
+    "/condominios": {
+      "get": {
+        "summary": "Lista todos os condomínios",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "query",
+            "description": "Filtrar por nome do condomínio",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "bairro",
+            "in": "query",
+            "description": "Filtrar por bairro",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cidade",
+            "in": "query",
+            "description": "Filtrar por cidade",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de condomínios",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Condominio"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Cria um novo condomínio",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CondominioCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Condomínio criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Condominio"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/condominios/busca/nome/{nome}": {
+      "get": {
+        "summary": "Busca condomínios por nome",
+        "parameters": [
+          {
+            "name": "nome",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de condomínios encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Condominio"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/condominios/busca/bairro/{bairro}": {
+      "get": {
+        "summary": "Busca condomínios por bairro",
+        "parameters": [
+          {
+            "name": "bairro",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de condomínios encontrados",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Condominio"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/condominios/{uuid}": {
+      "get": {
+        "summary": "Obtém um condomínio específico",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Condomínio encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Condominio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Condomínio não encontrado"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualiza um condomínio",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Condominio"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Condomínio atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Condominio"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Condomínio não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove um condomínio",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Condomínio removido com sucesso"
+          },
+          "404": {
+            "description": "Condomínio não encontrado"
+          }
+        }
+      }
+    },
+    "/condominios/estatisticas": {
+      "get": {
+        "summary": "Obtém estatísticas dos condomínios",
+        "responses": {
+          "200": {
+            "description": "Estatísticas obtidas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Estatisticas"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CondominioBase": {
+        "type": "object",
+        "required": ["nome_do_condominio", "endereco", "num", "bairro", "cidade", "UF"],
+        "properties": {
+          "nome_do_condominio": {
+            "type": "string",
+            "example": "Residencial Vila Olímpia"
+          },
+          "endereco": {
+            "type": "string",
+            "example": "Rua Frei Aureliano de Grotamare"
+          },
+          "num": {
+            "type": "string",
+            "example": "251"
+          },
+          "bairro": {
+            "type": "string",
+            "example": "SIM"
+          },
+          "cidade": {
+            "type": "string",
+            "example": "Feira de Santana"
+          },
+          "UF": {
+            "type": "string",
+            "example": "BA"
+          }
+        }
+      },
+      "CondominioCreate": {
+        "$ref": "#/components/schemas/CondominioBase"
+      },
+      "Condominio": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CondominioBase"
+          },
+          {
+            "type": "object",
+            "required": ["uuid"],
+            "properties": {
+              "uuid": {
+                "type": "string",
+                "format": "uuid"
+              }
+            }
+          }
+        ]
+      },
+      "Estatisticas": {
+        "type": "object",
+        "required": ["total_condominios", "condominios_por_bairro"],
+        "properties": {
+          "total_condominios": {
+            "type": "integer",
+            "example": 1000
+          },
+          "condominios_por_bairro": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "example": {
+              "SIM": 150,
+              "Santa Mônica": 80
+            }
+          }
+        }
+      }
+    }
+  }
+} 
