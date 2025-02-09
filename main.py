@@ -10,19 +10,14 @@ app = FastAPI(
     version="1.0.0"
 )
 
-class CondominioBase(BaseModel):
+class Condominio(BaseModel):
+    uuid: str
     nome_do_condominio: str
     endereco: str
     num: str
     bairro: str
     cidade: str
     UF: str
-
-class CondominioCreate(CondominioBase):
-    pass
-
-class Condominio(CondominioBase):
-    uuid: str
 
 class Estatisticas(BaseModel):
     total_condominios: int
@@ -144,19 +139,6 @@ def popular_dados_iniciais():
             "bairro": "SIM",
             "num": "900"
         },
-        # Novos condomínios do SIM
-        {
-            "nome": "Condomínio Bella Vista",
-            "endereco": "Rua Frei Aureliano de Grotamare",
-            "bairro": "SIM",
-            "num": "500"
-        },
-        {
-            "nome": "Residencial Jardim Acácia",
-            "endereco": "Avenida Artêmia Pires Freitas",
-            "bairro": "SIM",
-            "num": "1100"
-        },
         # Santa Mônica
         {
             "nome": "Residencial Parque das Acácias",
@@ -170,12 +152,6 @@ def popular_dados_iniciais():
             "bairro": "Santa Mônica",
             "num": "1800"
         },
-        {
-            "nome": "Residencial Santa Mônica",
-            "endereco": "Avenida Deputado Colbert Martins",
-            "bairro": "Santa Mônica",
-            "num": "1500"
-        },
         # Tomba
         {
             "nome": "Condomínio Solar Princesa do Sertão",
@@ -183,24 +159,12 @@ def popular_dados_iniciais():
             "bairro": "Tomba",
             "num": "2500"
         },
-        {
-            "nome": "Residencial Tomba",
-            "endereco": "Avenida Eduardo Fróes da Mota",
-            "bairro": "Tomba",
-            "num": "3000"
-        },
         # Cidade Nova
         {
             "nome": "Residencial Cidade Nova",
             "endereco": "Avenida João Durval Carneiro",
             "bairro": "Cidade Nova",
             "num": "3000"
-        },
-        {
-            "nome": "Condomínio Portal da Cidade",
-            "endereco": "Avenida João Durval Carneiro",
-            "bairro": "Cidade Nova",
-            "num": "2500"
         },
         # Muchila
         {
@@ -216,52 +180,12 @@ def popular_dados_iniciais():
             "bairro": "Centro",
             "num": "1234"
         },
-        {
-            "nome": "Edifício Feira Center",
-            "endereco": "Rua Conselheiro Franco",
-            "bairro": "Centro",
-            "num": "500"
-        },
-        {
-            "nome": "Edifício Boulevard Center",
-            "endereco": "Avenida Getúlio Vargas",
-            "bairro": "Centro",
-            "num": "150"
-        },
         # Ponto Central
         {
             "nome": "Residencial Feira Central",
             "endereco": "Rua Castro Alves",
             "bairro": "Ponto Central",
             "num": "150"
-        },
-        # Kalilândia
-        {
-            "nome": "Residencial Kalilândia",
-            "endereco": "Rua Arnold Silva",
-            "bairro": "Kalilândia",
-            "num": "400"
-        },
-        # Capuchinhos
-        {
-            "nome": "Condomínio Portal dos Capuchinhos",
-            "endereco": "Avenida Maria Quitéria",
-            "bairro": "Capuchinhos",
-            "num": "1800"
-        },
-        # Sobradinho
-        {
-            "nome": "Residencial Sobradinho",
-            "endereco": "Rua Joaquim Távora",
-            "bairro": "Sobradinho",
-            "num": "250"
-        },
-        # Serraria Brasil
-        {
-            "nome": "Condomínio Serraria",
-            "endereco": "Rua Voluntários da Pátria",
-            "bairro": "Serraria Brasil",
-            "num": "700"
         }
     ]
 
@@ -310,18 +234,10 @@ def popular_dados_iniciais():
 popular_dados_iniciais()
 
 @app.post("/condominios/", response_model=Condominio)
-async def criar_condominio(condominio: CondominioCreate):
-    novo_condominio = Condominio(
-        uuid=str(uuid.uuid4()),
-        nome_do_condominio=condominio.nome_do_condominio,
-        endereco=condominio.endereco,
-        num=condominio.num,
-        bairro=condominio.bairro,
-        cidade=condominio.cidade,
-        UF=condominio.UF
-    )
-    condominios.append(novo_condominio)
-    return novo_condominio
+async def criar_condominio(condominio: Condominio):
+    condominio.uuid = str(uuid.uuid4())
+    condominios.append(condominio)
+    return condominio
 
 @app.get("/condominios/", response_model=List[Condominio])
 async def listar_condominios(
