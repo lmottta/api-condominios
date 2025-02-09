@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, Query
+from mangum import Mangum
 from pydantic import BaseModel
 from typing import List, Optional, Dict
 import uuid
@@ -309,36 +310,22 @@ def popular_dados_iniciais():
 # Popular dados ao iniciar a aplicação
 popular_dados_iniciais()
 
-@app.post("/condominios/", response_model=Condominio)
+@app.get("/")
+async def root():
+    return {"message": "API de Condomínios"}
+
+@app.get("/condominios", response_model=List[Condominio])
+async def listar_condominios():
+    return condominios
+
+@app.post("/condominios", response_model=Condominio)
 async def criar_condominio(condominio: CondominioCreate):
     novo_condominio = Condominio(
         uuid=str(uuid.uuid4()),
-        nome_do_condominio=condominio.nome_do_condominio,
-        endereco=condominio.endereco,
-        num=condominio.num,
-        bairro=condominio.bairro,
-        cidade=condominio.cidade,
-        UF=condominio.UF
+        **condominio.dict()
     )
     condominios.append(novo_condominio)
     return novo_condominio
-
-@app.get("/condominios/", response_model=List[Condominio])
-async def listar_condominios(
-    nome: Optional[str] = Query(None, description="Filtrar por nome do condomínio"),
-    cidade: Optional[str] = Query(None, description="Filtrar por cidade"),
-    bairro: Optional[str] = Query(None, description="Filtrar por bairro")
-):
-    resultados = condominios
-
-    if nome:
-        resultados = [c for c in resultados if nome.lower() in c.nome_do_condominio.lower()]
-    if cidade:
-        resultados = [c for c in resultados if cidade.lower() in c.cidade.lower()]
-    if bairro:
-        resultados = [c for c in resultados if bairro.lower() in c.bairro.lower()]
-
-    return resultados
 
 @app.get("/condominios/busca/nome/{nome}", response_model=List[Condominio])
 async def buscar_por_nome(nome: str):
@@ -363,12 +350,15 @@ async def obter_condominio(uuid: str):
     raise HTTPException(status_code=404, detail="Condomínio não encontrado")
 
 @app.put("/condominios/{uuid}", response_model=Condominio)
-async def atualizar_condominio(uuid: str, condominio_atualizado: Condominio):
+async def atualizar_condominio(uuid: str, condominio_atualizado: CondominioCreate):
     for i, condominio in enumerate(condominios):
         if condominio.uuid == uuid:
-            condominio_atualizado.uuid = uuid
-            condominios[i] = condominio_atualizado
-            return condominio_atualizado
+            novo_condominio = Condominio(
+                uuid=uuid,
+                **condominio_atualizado.dict()
+            )
+            condominios[i] = novo_condominio
+            return novo_condominio
     raise HTTPException(status_code=404, detail="Condomínio não encontrado")
 
 @app.delete("/condominios/{uuid}")
@@ -376,7 +366,7 @@ async def deletar_condominio(uuid: str):
     for i, condominio in enumerate(condominios):
         if condominio.uuid == uuid:
             del condominios[i]
-            return {"mensagem": "Condomínio deletado com sucesso"}
+            return {"message": "Condomínio deletado com sucesso"}
     raise HTTPException(status_code=404, detail="Condomínio não encontrado")
 
 @app.get("/condominios/estatisticas", response_model=Estatisticas)
@@ -392,4 +382,7 @@ async def obter_estatisticas():
     return Estatisticas(
         total_condominios=len(condominios),
         condominios_por_bairro=contagem_por_bairro
-    ) 
+    )
+
+# Handler para Netlify
+handler = Mangum(app) 

@@ -1,20 +1,14 @@
 [build]
-  command = "npm run build"
+  command = "pip install -r requirements.txt"
   publish = "public"
-  functions = "functions"
 
 [build.environment]
   PYTHON_VERSION = "3.9"
-  NODE_VERSION = "18"
-  AWS_LAMBDA_JS_RUNTIME = "nodejs18.x"
-  PYTHONPATH = "."
-  LANG = "pt_BR.UTF-8"
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/api/:splat"
+  to = "/.netlify/functions/api"
   status = 200
 
 [functions]
-  external_node_modules = ["child_process"]
   node_bundler = "esbuild" 
