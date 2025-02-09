@@ -6,11 +6,25 @@
 [build.environment]
   PYTHON_VERSION = "3.9"
 
+# Redirecionamento para a documentação Swagger
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
+  from = "/docs"
+  to = "/.netlify/functions/api/docs"
   status = 200
 
+# Redirecionamento para a documentação ReDoc
+[[redirects]]
+  from = "/redoc"
+  to = "/.netlify/functions/api/redoc"
+  status = 200
+
+# Redirecionamento para todos os endpoints da API v1
+[[redirects]]
+  from = "/api/v1/*"
+  to = "/.netlify/functions/api/api/v1/:splat"
+  status = 200
+
+# Redirecionamento para a página inicial
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -21,9 +35,9 @@ for = "/*"
 [headers.values]
 Access-Control-Allow-Origin = "*"
 Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
-Access-Control-Allow-Headers = "Content-Type"
+Access-Control-Allow-Headers = "Content-Type, Authorization"
 
 [functions]
   node_bundler = "esbuild"
   external_node_modules = []
-  included_files = ["api/api.py"] 
+  included_files = ["api/api.py", "app/**/*"] 

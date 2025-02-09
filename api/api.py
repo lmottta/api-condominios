@@ -1,7 +1,9 @@
 from mangum import Mangum
+from fastapi import FastAPI
 from app.main import app
 
-handler = Mangum(app)
+# Configurar o handler para o Netlify
+handler = Mangum(app, lifespan="off")
 
 # Para desenvolvimento local
 if __name__ == "__main__":
