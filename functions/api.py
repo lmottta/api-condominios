@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from typing import List, Optional, Dict
 import json
 import uuid
+import sys
 
 app = FastAPI(
     title="API de Condomínios",
@@ -148,8 +149,15 @@ async def obter_estatisticas():
     )
 
 # Handler para Netlify
-handler = Mangum(app)
+handler = Mangum(app, lifespan="off")
 
 # Função para ser chamada pelo Netlify
 def handler(event, context):
-    return Mangum(app)(event, context) 
+    return Mangum(app, lifespan="off")(event, context)
+
+if __name__ == "__main__":
+    # Receber evento do Node.js
+    if len(sys.argv) > 1:
+        event = json.loads(sys.argv[1])
+        result = handler(event, None)
+        print(json.dumps(result)) 
