@@ -1,14 +1,13 @@
 [build]
   command = "pip install -r requirements.txt"
-  functions = "netlify/functions"
-  publish = "public"
+  publish = "."
 
 [build.environment]
   PYTHON_VERSION = "3.9"
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/api/:splat"
+  to = "/api/:splat"
   status = 200
 
 [functions]
