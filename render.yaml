@@ -7,4 +7,12 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.9
+      - key: PORT
+        value: 8000
+      - key: ENVIRONMENT
+        value: production
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
+      - key: API_KEY
+        sync: false # Isso indica que o valor deve ser definido manualmente no dashboard
     autoDeploy: true 
