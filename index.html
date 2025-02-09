@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API de Condomínios - Feira de Santana</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .endpoint {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .method {
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        .url {
+            color: #198754;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="#">API de Condomínios</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/docs">Documentação Swagger</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/redoc">Documentação ReDoc</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h1>API de Condomínios - Feira de Santana</h1>
+        <p class="lead">
+            API REST para gerenciamento de informações de condomínios em Feira de Santana.
+            Acesse a documentação completa através do Swagger ou ReDoc nos links acima.
+        </p>
+
+        <h2 class="mt-4">Endpoints Disponíveis</h2>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <span class="url">/api/v1/condominios/</span>
+            <p>Lista todos os condomínios cadastrados</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <span class="url">/api/v1/condominios/estatisticas</span>
+            <p>Retorna estatísticas sobre os condomínios</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <span class="url">/api/v1/condominios/busca/bairro/{bairro}</span>
+            <p>Busca condomínios por bairro</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">GET</span>
+            <span class="url">/api/v1/condominios/busca/nome/{nome}</span>
+            <p>Busca condomínios por nome</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">POST</span>
+            <span class="url">/api/v1/condominios/</span>
+            <p>Cria um novo condomínio</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">PUT</span>
+            <span class="url">/api/v1/condominios/{uuid}</span>
+            <p>Atualiza um condomínio existente</p>
+        </div>
+
+        <div class="endpoint">
+            <span class="method">DELETE</span>
+            <span class="url">/api/v1/condominios/{uuid}</span>
+            <p>Remove um condomínio</p>
+        </div>
+
+        <h2 class="mt-4">Exemplo de Uso</h2>
+        <pre class="bg-light p-3 rounded">
+curl -X GET "https://api-condominio.netlify.app/api/v1/condominios/estatisticas"
+        </pre>
+
+        <div class="mt-4 mb-4">
+            <h3>Resposta:</h3>
+            <pre class="bg-light p-3 rounded">
+{
+    "total_condominios": 1000,
+    "condominios_por_bairro": {
+        "SIM": 85,
+        "Santa Mônica": 72,
+        "Tomba": 65,
+        ...
+    }
+}
+            </pre>
+        </div>
+    </div>
+
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p>API de Condomínios - Feira de Santana &copy; 2024</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
