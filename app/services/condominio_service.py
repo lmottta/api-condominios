@@ -273,7 +273,7 @@ class CondominioService:
         bairro: Optional[str] = None,
         skip: int = 0,
         limit: int = 100
-    ) -> List[Condominio]:
+    ) -> dict:
         resultados = self.condominios
 
         if nome:
@@ -283,7 +283,16 @@ class CondominioService:
         if bairro:
             resultados = [c for c in resultados if bairro.lower() in c.bairro.lower()]
 
-        return resultados[skip:skip + limit]
+        total = len(resultados)
+        total_paginas = (total + limit - 1) // limit
+        pagina_atual = (skip // limit) + 1
+
+        return {
+            "total": total,
+            "pagina_atual": pagina_atual,
+            "total_paginas": total_paginas,
+            "items": resultados[skip:skip + limit]
+        }
 
     def get_by_uuid(self, uuid: str) -> Optional[Condominio]:
         for condominio in self.condominios:

@@ -1,7 +1,12 @@
 from fastapi import APIRouter, HTTPException, Query
 from typing import List, Optional, Dict
 
-from app.schemas.condominio import Condominio, CondominioCreate, CondominioUpdate
+from app.schemas.condominio import (
+    Condominio, 
+    CondominioCreate, 
+    CondominioUpdate,
+    PaginatedCondominios
+)
 from app.services.condominio_service import CondominioService
 
 router = APIRouter()
@@ -11,13 +16,13 @@ condominio_service = CondominioService()
 async def criar_condominio(condominio: CondominioCreate):
     return condominio_service.create(condominio)
 
-@router.get("/", response_model=List[Condominio])
+@router.get("/", response_model=PaginatedCondominios)
 async def listar_condominios(
     nome: Optional[str] = Query(None, description="Filtrar por nome do condomínio"),
     cidade: Optional[str] = Query(None, description="Filtrar por cidade"),
     bairro: Optional[str] = Query(None, description="Filtrar por bairro"),
-    skip: int = Query(0, description="Número de registros para pular (paginação)"),
-    limit: int = Query(100, description="Número máximo de registros para retornar (paginação)")
+    skip: int = Query(0, ge=0, description="Número de registros para pular (paginação)"),
+    limit: int = Query(100, ge=1, le=100, description="Número máximo de registros para retornar (paginação)")
 ):
     return condominio_service.get_all(
         nome=nome, 
