@@ -15,9 +15,17 @@ async def criar_condominio(condominio: CondominioCreate):
 async def listar_condominios(
     nome: Optional[str] = Query(None, description="Filtrar por nome do condomínio"),
     cidade: Optional[str] = Query(None, description="Filtrar por cidade"),
-    bairro: Optional[str] = Query(None, description="Filtrar por bairro")
+    bairro: Optional[str] = Query(None, description="Filtrar por bairro"),
+    skip: int = Query(0, description="Número de registros para pular (paginação)"),
+    limit: int = Query(100, description="Número máximo de registros para retornar (paginação)")
 ):
-    return condominio_service.get_all(nome=nome, cidade=cidade, bairro=bairro)
+    return condominio_service.get_all(
+        nome=nome, 
+        cidade=cidade, 
+        bairro=bairro, 
+        skip=skip, 
+        limit=limit
+    )
 
 @router.get("/estatisticas")
 async def obter_estatisticas():

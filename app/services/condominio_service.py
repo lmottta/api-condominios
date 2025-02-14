@@ -270,7 +270,9 @@ class CondominioService:
         self,
         nome: Optional[str] = None,
         cidade: Optional[str] = None,
-        bairro: Optional[str] = None
+        bairro: Optional[str] = None,
+        skip: int = 0,
+        limit: int = 100
     ) -> List[Condominio]:
         resultados = self.condominios
 
@@ -281,7 +283,7 @@ class CondominioService:
         if bairro:
             resultados = [c for c in resultados if bairro.lower() in c.bairro.lower()]
 
-        return resultados
+        return resultados[skip:skip + limit]
 
     def get_by_uuid(self, uuid: str) -> Optional[Condominio]:
         for condominio in self.condominios:
