@@ -4,7 +4,19 @@ from typing import List
 import uuid
 import json  # Adicionando import do json
 
+from fastapi.middleware.cors import CORSMiddleware
+import os
+
 app = FastAPI()
+
+# Configuração CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 class CondominioBase(BaseModel):
     nome_do_condominio: str
